@@ -1,11 +1,12 @@
 #ifndef START_NODE
 #define START_NODE
 #include "Room.h"
-
+#include <list>
 class StartNode : public Room
 {
 private:
     vector<Item *> keys;
+    std::list<Item *> statue;
     string riddle;                               // contains riddle, each room will have a different riddle
     string riddleB;
     string riddleC;
@@ -68,6 +69,7 @@ public:
     {
         cout << "\nYou are in the start room.\n";
         cout << "\nYou see a chest on a table in the center and four doors.\nYou see an object hanging on the wall, covered with a sheet\n";
+        cout<< "\nYou see a statue in the corner\n";
     }
 
     void initObjects()
@@ -104,7 +106,13 @@ public:
 
 
 
-        choice = inputCheck(2, choice);
+        choice = inputCheck(3, choice);
+        
+        if (choice == 3)
+        {
+            statueOptions(player);
+            return;
+        }
 
         if (choice ==2)
         {
@@ -112,7 +120,7 @@ public:
         }
 
         cout << endl
-             << actualObjectDescriptions.at(choice-1).getDescription() << " has: \n";
+             << actualObjectDescriptions.at(0).getDescription() << " has: \n";
 
         while (i < keys.size())
         {
@@ -481,13 +489,15 @@ public:
 
     void inputItemsintoGameObjects(Player *player, char X) // from player->objects
     {
+        
+        
         int x;
 
         int numA = player->getInventory()->numberOfaccessibleKeys();
 
         vector<Item *> dummy = player->returnsVectorOfAccessableKeys();
 
-        cout << "\nWhat would you like to place in the chest?\n Enter number:\n";
+        cout << "\nWhat would you like to place in the object?\n Enter number:\n";
         for (int i = 1; i < numA+1; i++)
         {
 
@@ -498,6 +508,16 @@ public:
         x = inputCheck(numA, x);
 
         x-=1;
+        
+            if (X=='S')
+            {
+                dummy.at(x)->makeInAccessable();
+                statue.push_back(dummy.at(x));
+                cout << "\nItem is no longer in inventory.\n";
+                updateAndDisplayInventory(player);
+                return;
+                
+            }
 
         dummy.at(x)->makeInAccessable();
 
@@ -523,6 +543,8 @@ public:
             displayObjects();
 
             cout<<"2.Covered-hanging object"<<endl;
+            
+            cout<<"3.Statue"<<endl;
 
 
             investigate(player);
@@ -532,6 +554,101 @@ public:
             displayDoors(player);
         }
     }
+    
+    
+    
+    void statueOptions(Player *player)
+    {
+        Item *keyy;
+        int choice;
+        int x;
+        int i=0;
+        int w = 1;
+        cout << "\nSelect an action:\n";
+        cout << "1.Insert items\n";
+        cout << "2.Extract items\n";
+        cout << "3.Leave statue\n";
+        
+        cin>>choice;
+        
+        choice = inputCheck(3, choice);
+        
+        while (choice!=3)
+        {
+       
+        
+         if (choice == 2)
+        {
+            if (statue.size()==0)
+                cout<<"\nStatue is empty\n";
+            
+            else
+            {
+                cout<<"Statue has "<<endl;
+            
+            
+            for (std::list<Item *> ::iterator it = statue.begin();it!= statue.end();it++)
+            {
+                i++;
+                cout<<i<<"."<<(*it)->getDescription();
+            }
+            
+            cout<<"\nWhich would you like to take?\n"<<endl;
+            cin>>x;
+            
+            x = inputCheck(statue.size(), x);
+            
+            for (std::list<Item *> ::iterator it = statue.begin();it!= statue.end();it++)
+            {
+                if (w==i)
+                {
+                    keyy = (*it);
+                    
+                    if (!player->inventoryFull())
+                    {
+                        keyy->makeAccessable();
+                        statue.erase(it);
+                        updateAndDisplayInventory(player);
+                    }
+                    else
+                    {
+                        cout<<"\nPlayer inventory is full!\n";
+                        return;
+                    }
+                    
+                }
+                w++;
+            }
+            
+            
+        }
+            
+        }
+        else
+        {
+            
+            if (player->numberofAccessibleKeys() == 0)
+            {
+                cout << "\nInventory is empty!\n";
+                
+            
+            }
+            else
+            {
+            inputItemsintoGameObjects(player, 'S');
+            }
+        }
+            
+            cout << "\nSelect an action:\n";
+            cout << "1.Insert items\n";
+            cout << "2.Extract items\n";
+            cout << "3.Leave statue\n";
+            
+            cin>>choice;
+    }
+       
+    }
+    
 };
 
 #endif
