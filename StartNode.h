@@ -649,6 +649,27 @@ public:
        
     }
     
+    void checkIfGameWon()
+    {
+        int x = 0;
+        
+        for (std::list<Item *>::iterator it;it!=statue.end();it++)
+        {
+            if ( (*it)->getKey() == 120 || (*it)->getKey() == 110 || (*it)->getKey() == 90 || (*it)->getKey() == 121  )
+            {
+                x++;
+            }
+            
+        }
+       
+        if (x==4)
+        {
+            cout<<"Game has been won! You've escaped!";
+            exit(666);
+        }
+    }
+    
+    
 };
 
 #endif
