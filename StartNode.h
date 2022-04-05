@@ -107,7 +107,7 @@ public:
 
 
         choice = inputCheck(3, choice);
-        
+
         if (choice == 3)
         {
             statueOptions(player);
@@ -442,6 +442,7 @@ public:
 
         }
 
+
         else if (!doors.at(choice) && choice == 2)
                {
                    cout << riddleC;
@@ -454,7 +455,7 @@ public:
 
                }
 
-        else if (doors.at(choice) && choice == 3)
+        else if (doors.at(choice) && choice == 2)
                {
                    cout << "\nThe door is open and you pass through.\n";
                    room_ID_of_destination = 777;
@@ -489,8 +490,8 @@ public:
 
     void inputItemsintoGameObjects(Player *player, char X) // from player->objects
     {
-        
-        
+
+
         int x;
 
         int numA = player->getInventory()->numberOfaccessibleKeys();
@@ -508,7 +509,7 @@ public:
         x = inputCheck(numA, x);
 
         x-=1;
-        
+
             if (X=='S')
             {
                 dummy.at(x)->makeInAccessable();
@@ -516,7 +517,7 @@ public:
                 cout << "\nItem is no longer in inventory.\n";
                 updateAndDisplayInventory(player);
                 return;
-                
+
             }
 
         dummy.at(x)->makeInAccessable();
@@ -543,7 +544,7 @@ public:
             displayObjects();
 
             cout<<"2.Covered-hanging object"<<endl;
-            
+
             cout<<"3.Statue"<<endl;
 
 
@@ -554,9 +555,9 @@ public:
             displayDoors(player);
         }
     }
-    
-    
-    
+
+
+
     void statueOptions(Player *player)
     {
         Item *keyy;
@@ -568,42 +569,42 @@ public:
         cout << "1.Insert items\n";
         cout << "2.Extract items\n";
         cout << "3.Leave statue\n";
-        
+
         cin>>choice;
-        
+
         choice = inputCheck(3, choice);
-        
+
         while (choice!=3)
         {
-       
-        
+
+
          if (choice == 2)
         {
             if (statue.size()==0)
                 cout<<"\nStatue is empty\n";
-            
+
             else
             {
                 cout<<"Statue has "<<endl;
-            
-            
+
+
             for (std::list<Item *> ::iterator it = statue.begin();it!= statue.end();it++)
             {
                 i++;
                 cout<<i<<"."<<(*it)->getDescription();
             }
-            
+
             cout<<"\nWhich would you like to take?\n"<<endl;
             cin>>x;
-            
+
             x = inputCheck(statue.size(), x);
-            
+
             for (std::list<Item *> ::iterator it = statue.begin();it!= statue.end();it++)
             {
                 if (w==i)
                 {
                     keyy = (*it);
-                    
+
                     if (!player->inventoryFull())
                     {
                         keyy->makeAccessable();
@@ -615,61 +616,61 @@ public:
                         cout<<"\nPlayer inventory is full!\n";
                         return;
                     }
-                    
+
                 }
                 w++;
             }
-            
-            
+
+
         }
-            
+
         }
         else
         {
-            
+
             if (player->numberofAccessibleKeys() == 0)
             {
                 cout << "\nInventory is empty!\n";
-                
-            
+
+
             }
             else
             {
             inputItemsintoGameObjects(player, 'S');
             }
         }
-            
+
             cout << "\nSelect an action:\n";
             cout << "1.Insert items\n";
             cout << "2.Extract items\n";
             cout << "3.Leave statue\n";
-            
+
             cin>>choice;
     }
-       
+
     }
-    
+
     void checkIfGameWon()
     {
         int x = 0;
-        
+
         for (std::list<Item *>::iterator it;it!=statue.end();it++)
         {
             if ( (*it)->getKey() == 120 || (*it)->getKey() == 110 || (*it)->getKey() == 90 || (*it)->getKey() == 121  )
             {
                 x++;
             }
-            
+
         }
-       
+
         if (x==4)
         {
             cout<<"Game has been won! You've escaped!";
             exit(666);
         }
     }
-    
-    
+
+
 };
 
 #endif
