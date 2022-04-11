@@ -299,6 +299,7 @@ public:
     }
 
     void Attempt2open(int choice, Player *p)
+
     {
         if (choice == 1 && !doors.at(1))
         {
@@ -329,6 +330,7 @@ public:
             }
         }
         // TODO: the rest of the doors once they're created
+
     }
     void initDoors()
     {
@@ -361,7 +363,9 @@ public:
         }
         else
         {
+
             cout << "\nWithout life, I still grow.\nWithout lungs, yet I still need air.\n";
+
             cout << "\nThe door is locked. Attempt to open it?\n1.Yes\n2.No\n";
             cin >> choiceB;
 
@@ -441,14 +445,19 @@ public:
         }
     }
 
-            void closetprompt(Player *player)
+
+
+
+
+
+     void closetprompt(Player *player)
     {
         int choice;
         int XXX;
         int take;
 
 
-        cout << "Kitchen closet has :\n";
+        cout << "Dining Room closet has :\n";
 
         for (int i=0;i<closet.size();i++)
         {
@@ -480,7 +489,7 @@ public:
 
                 if (!player->inventoryFull())
                 {
-                    cout <<"Kitchen" << " has:\n";
+                    cout <<"Closet" << " has:\n";
 
                     if (!closet.empty())
                     {
@@ -536,8 +545,6 @@ public:
         }
 
     }
-
-
 };
 
 #endif

@@ -445,7 +445,7 @@ public:
         int take;
 
 
-        cout << "Kitchen closet has :\n";
+        cout << "Dining Room closet has :\n";
 
         for (int i=0;i<closet.size();i++)
         {
@@ -477,7 +477,7 @@ public:
 
                 if (!player->inventoryFull())
                 {
-                    cout <<"Kitchen" << " has:\n";
+                    cout <<"Closet" << " has:\n";
 
                     if (!closet.empty())
                     {
